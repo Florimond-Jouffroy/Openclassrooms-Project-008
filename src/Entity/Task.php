@@ -6,10 +6,13 @@ use Datetime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
+use App\Entity\Traits\TimeStampableTrait;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Task
 {
+  use TimeStampableTrait;
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
@@ -24,12 +27,8 @@ class Task
   #[ORM\Column]
   private ?bool $isDone = null;
 
-  #[ORM\Column]
-  private ?\DateTimeImmutable $createdAt = null;
-
   public function __construct()
   {
-    $this->createdAt = new Datetime();
     $this->isDone = false;
   }
 
@@ -62,26 +61,14 @@ class Task
     return $this;
   }
 
-  public function isIsDone(): ?bool
+  public function isDone(): ?bool
   {
     return $this->isDone;
   }
 
-  public function setIsDone(bool $isDone): self
+  public function toggle(bool $isDone): self
   {
     $this->isDone = $isDone;
-
-    return $this;
-  }
-
-  public function getCreatedAt(): ?\DateTimeImmutable
-  {
-    return $this->createdAt;
-  }
-
-  public function setCreatedAt(\DateTimeImmutable $createdAt): self
-  {
-    $this->createdAt = $createdAt;
 
     return $this;
   }
