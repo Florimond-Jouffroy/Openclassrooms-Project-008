@@ -17,10 +17,10 @@ class DefaultControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('label:contains("Nom d\'utilisateur :")')->count());
   }
 
-  public function testIndex()
+  public function testIndexLogged()
   {
     $client = static::createClient([], [
-      'PHP_AUTH_USER' => 'florimond',
+      'PHP_AUTH_USER' => 'florimond@gmail.com',
       'PHP_AUTH_PW'   => 'admin',
     ]);
 
