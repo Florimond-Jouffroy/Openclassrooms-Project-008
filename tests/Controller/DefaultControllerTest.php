@@ -19,6 +19,7 @@ class DefaultControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
+  // Test sur la page d'accueil sans etre connecter
   public function testIndexNotLogged(): void
   {
     $this->client->request('GET', '/');
@@ -27,6 +28,7 @@ class DefaultControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
   }
 
+  // Test sur la page d'accueil en etant connecter
   public function testIndexLogged(): void
   {
     $this->client->loginUser($this->user);

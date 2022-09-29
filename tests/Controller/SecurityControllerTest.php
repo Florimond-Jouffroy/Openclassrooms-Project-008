@@ -19,6 +19,7 @@ class SecurityControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
+  // Test sur la connexion d'un utilisateur
   public function testLogin(): void
   {
     $crawler = $this->client->request('GET', '/login');
@@ -31,6 +32,7 @@ class SecurityControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
   }
 
+  // Test sur la déconnexion d'un utilisateur
   public function testLogout(): void
   {
     $this->client->loginUser($this->user);

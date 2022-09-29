@@ -19,43 +19,7 @@ class TaskControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testTaskNotLogged(): void
-  {
-
-    $this->client->request('GET', '/tasks');
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
-  }
-
-  public function testTaskListLogged(): void
-  {
-    $this->client->loginUser($this->user);
-    $crawler = $this->client->request('GET', '/tasks');
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertGreaterThan(0, $crawler->filter('a:contains("Créer une tâche")')->count());
-  }
-
-  public function testCreateTaskNotLogged(): void
-  {
-    $this->client->request('GET', '/tasks/create');
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
-  }
-
-  public function testCreateTask(): void
-  {
-    $this->client->loginUser($this->user);
-    $crawler = $this->client->request('GET', '/tasks/create');
-    $form = $crawler->selectButton('addTask')->form();
-    $this->client->submit($form, ['task[title]' => 'Test CreateTask', 'task[content]' => 'Tache content']);
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('a:contains("Test CreateTask")')->count());
-  }
-
-
+  // Test sur le changement de la tache comme terminée ou non terminée
   public function testToggleTaskAction(): void
   {
     $this->client->loginUser($this->user);
@@ -70,6 +34,7 @@ class TaskControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $newCrawler->filter('button:contains("Marquer non terminée")')->count());
   }
 
+  // Test sur la suppresion d'une tache
   public function testTaskDelete(): void
   {
     $this->client->loginUser($this->user);
@@ -81,5 +46,67 @@ class TaskControllerTest extends WebTestCase
     $this->client->submit($form, []);
     $crawler = $this->client->followRedirect();
     $this->assertEquals(0, $crawler->filter('div:contains("task delete")')->count());
+  }
+
+  // test sur la création d'une tache sans etre connecter
+  public function testCreateTaskNotLogged(): void
+  {
+    $this->client->request('GET', '/tasks/create');
+    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+    $crawler = $this->client->followRedirect();
+    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+  }
+
+  /**
+   * @dataProvider provideCreateTaskData
+   * test sur la création d'une tache
+   */
+  public function testCreateTask($expetedStatusCode, $formContent, $string): void
+  {
+    $this->client->loginUser($this->user);
+
+    $crawler = $this->client->request('GET', '/tasks/create');
+    $form = $crawler->selectButton('addTask')->form();
+    $this->client->submit($form, $formContent);
+    $this->assertEquals($expetedStatusCode, $this->client->getResponse()->getStatusCode());
+    $crawler = $this->client->followRedirect();
+    $this->assertGreaterThan(0, $crawler->filter($string)->count());
+  }
+
+  public function provideCreateTaskData()
+  {
+    // code de la réponse http ; tableau pour le form ;
+    return [
+      [302, ['task[title]' => 'Test CreateTask', 'task[content]' => 'Tache content'], 'a:contains("Test CreateTask")'],
+    ];
+  }
+
+  /**
+   * @dataProvider provideTaskListData
+   * Test sur l'affichage de la liste des taches
+   */
+  public function testTaskList($expetedStatusCode, $stringContains, $userLogged): void
+  {
+    if ($userLogged === true) {
+      $this->client->loginUser($this->user);
+    }
+
+    $crawler = $this->client->request('GET', '/tasks');
+    $this->assertEquals($expetedStatusCode, $this->client->getResponse()->getStatusCode());
+
+    if ($expetedStatusCode === 302) {
+      $crawler = $this->client->followRedirect();
+    }
+    $this->assertGreaterThan(0, $crawler->filter($stringContains)->count());
+  }
+
+
+  public function provideTaskListData()
+  {
+    // Code de la réponse ; param du filter ; Si l'utilisateur doit etre co
+    return [
+      [200, 'a:contains("Créer une tâche")', true],
+      [302, 'label:contains("Email :")', false]
+    ];
   }
 }
