@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
   private KernelBrowser|null $client = null;
   private User $user;
@@ -19,20 +19,24 @@ class DefaultControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testIndexNotLogged()
+  public function testLogin()
   {
-    $this->client->request('GET', '/');
+
+    $crawler = $this->client->request('GET', '/login');
+    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+
+    $form = $crawler->selectButton('login')->form();
+    $this->client->submit($form, ['_username' => 'florimond@gmail.com', '_password' => 'admin']);
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+    $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
   }
 
-  public function testIndexLogged()
+  public function testLogout()
   {
     $this->client->loginUser($this->user);
 
-    $crawler = $this->client->request('GET', '/');
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
+    $this->client->request('GET', '/logout');
+    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
   }
 }
