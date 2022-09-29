@@ -19,9 +19,8 @@ class SecurityControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testLogin()
+  public function testLogin(): void
   {
-
     $crawler = $this->client->request('GET', '/login');
     $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
 
@@ -32,7 +31,7 @@ class SecurityControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
   }
 
-  public function testLogout()
+  public function testLogout(): void
   {
     $this->client->loginUser($this->user);
 

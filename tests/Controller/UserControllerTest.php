@@ -19,7 +19,7 @@ class UserControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testListUser()
+  public function testListUser(): void
   {
     $this->client->loginUser($this->user);
 
@@ -27,7 +27,7 @@ class UserControllerTest extends WebTestCase
     $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
   }
 
-  public function testCreateUser()
+  public function testCreateUser(): void
   {
     $crawler = $this->client->request('GET', '/users/create');
     $form = $crawler->selectButton('addUser')->form();
@@ -45,7 +45,7 @@ class UserControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('td:contains("test@test.com")')->count());
   }
 
-  public function testEditUser()
+  public function testEditUser(): void
   {
     $userRepository = static::getContainer()->get(UserRepository::class);
 

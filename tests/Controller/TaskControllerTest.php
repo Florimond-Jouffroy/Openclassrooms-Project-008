@@ -19,7 +19,7 @@ class TaskControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testTaskNotLogged()
+  public function testTaskNotLogged(): void
   {
 
     $this->client->request('GET', '/tasks');
@@ -28,7 +28,7 @@ class TaskControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
   }
 
-  public function testTaskListLogged()
+  public function testTaskListLogged(): void
   {
     $this->client->loginUser($this->user);
     $crawler = $this->client->request('GET', '/tasks');
@@ -36,7 +36,7 @@ class TaskControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('a:contains("Créer une tâche")')->count());
   }
 
-  public function testCreateTaskNotLogged()
+  public function testCreateTaskNotLogged(): void
   {
     $this->client->request('GET', '/tasks/create');
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
@@ -44,7 +44,7 @@ class TaskControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
   }
 
-  public function testCreateTask()
+  public function testCreateTask(): void
   {
     $this->client->loginUser($this->user);
     $crawler = $this->client->request('GET', '/tasks/create');
@@ -56,7 +56,7 @@ class TaskControllerTest extends WebTestCase
   }
 
 
-  public function testToggleTaskAction()
+  public function testToggleTaskAction(): void
   {
     $this->client->loginUser($this->user);
     $crawler = $this->client->request('GET', '/tasks');
@@ -70,7 +70,7 @@ class TaskControllerTest extends WebTestCase
     $this->assertGreaterThan(0, $newCrawler->filter('button:contains("Marquer non terminée")')->count());
   }
 
-  public function testTaskDelete()
+  public function testTaskDelete(): void
   {
     $this->client->loginUser($this->user);
 
