@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ class UserController extends AbstractController
     private UserRepository $userRepository
   ) {
   }
-
+  #[IsGranted('ROLE_ADMIN')]
   #[Route('/users', name: "user_list")]
   public function listAction()
   {
@@ -48,6 +49,7 @@ class UserController extends AbstractController
     ]);
   }
 
+  #[IsGranted('ROLE_ADMIN')]
   #[Route('/users/{id}/edit', name: "user_edit")]
   public function editAction(User $user, Request $request)
   {
