@@ -23,7 +23,7 @@ class SecurityControllerTest extends WebTestCase
   public function testLogin(): void
   {
     $crawler = $this->client->request('GET', '/login');
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email address")')->count());
 
     $form = $crawler->selectButton('login')->form();
     $this->client->submit($form, ['_username' => 'florimond@gmail.com', '_password' => 'admin']);

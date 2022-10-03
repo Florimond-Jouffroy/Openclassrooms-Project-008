@@ -42,7 +42,7 @@ class TaskControllerTest extends WebTestCase
     $crawler = $this->client->request('GET', '/tasks');
     $this->assertGreaterThan(0, $crawler->filter('div:contains("task delete")')->count());
 
-    $form = $crawler->filter('div.task:contains("task delete")')->selectButton('deleteTask')->form();
+    $form = $crawler->filter('div.tasks:contains("task delete")')->selectButton('deleteTask')->form();
     $this->client->submit($form, []);
     $crawler = $this->client->followRedirect();
     $this->assertEquals(0, $crawler->filter('div:contains("task delete")')->count());
@@ -54,7 +54,7 @@ class TaskControllerTest extends WebTestCase
     $this->client->request('GET', '/tasks/create');
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email address")')->count());
   }
 
   /**
@@ -77,7 +77,7 @@ class TaskControllerTest extends WebTestCase
   {
     // code de la réponse http ; tableau pour le form ;
     return [
-      [302, ['task[title]' => 'Test CreateTask', 'task[content]' => 'Tache content'], 'a:contains("Test CreateTask")'],
+      [302, ['task[title]' => 'Test CreateTask', 'task[content]' => 'Tache content'], 'h5:contains("Test CreateTask")'],
     ];
   }
 
@@ -106,7 +106,7 @@ class TaskControllerTest extends WebTestCase
     // Code de la réponse ; param du filter ; Si l'utilisateur doit etre co
     return [
       [200, 'a:contains("Créer une tâche")', true],
-      [302, 'label:contains("Email :")', false]
+      [302, 'label:contains("Email address")', false]
     ];
   }
 }
