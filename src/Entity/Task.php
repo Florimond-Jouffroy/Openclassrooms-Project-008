@@ -27,6 +27,9 @@ class Task
   #[ORM\Column]
   private ?bool $isDone = null;
 
+  #[ORM\ManyToOne(inversedBy: 'tasks')]
+  private ?User $user = null;
+
   public function __construct()
   {
     $this->isDone = false;
@@ -71,5 +74,17 @@ class Task
     $this->isDone = $isDone;
 
     return $this;
+  }
+
+  public function getUser(): ?User
+  {
+      return $this->user;
+  }
+
+  public function setUser(?User $user): self
+  {
+      $this->user = $user;
+
+      return $this;
   }
 }
