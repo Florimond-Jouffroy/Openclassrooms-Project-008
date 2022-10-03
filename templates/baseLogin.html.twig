@@ -14,17 +14,18 @@
 		{% endblock %}
 	</head>
 	<body>
+
 		{% include "partials/_navbar.html.twig" %}
-		{% include "partials/_message.html.twig" %}
 
-		<!-- Page Content -->
 		<div class="container">
-			<div>
-				{% block body %}{% endblock %}
+			<div class="row flex align-items-top">
+				<div class="col-lg-6 col-sm-12">
+					<h1 class="mb-5">Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+				</div>
+				<div class="col-lg-6 col-sm-12"> {% block body %}{% endblock %}
+					</div>
+				</div>
 			</div>
-		</div>
-		{% include "partials/_footer.html.twig" %}
 
-
-	</body>
-</html>
+		</body>
+	</html>

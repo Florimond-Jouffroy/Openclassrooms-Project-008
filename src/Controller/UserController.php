@@ -41,7 +41,7 @@ class UserController extends AbstractController
       $this->em->flush();
 
       $this->addFlash('success', "L'utilisateur a bien été ajouté.");
-      return $this->redirectToRoute('user_list');
+      return $this->redirectToRoute('app_login');
     }
 
     return $this->render('user/create.html.twig', [
@@ -49,7 +49,7 @@ class UserController extends AbstractController
     ]);
   }
 
-  #[IsGranted('ROLE_ADMIN')]
+  //#[IsGranted('ROLE_ADMIN')]
   #[Route('/users/{id}/edit', name: "user_edit")]
   public function editAction(User $user, Request $request)
   {

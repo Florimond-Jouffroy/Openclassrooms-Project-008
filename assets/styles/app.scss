@@ -1,8 +1,49 @@
 @import "~bootstrap/scss/bootstrap";
+@import "loginPage.scss";
 
 body {
-  padding-top: 70px;
+
   /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.tasks {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 30%;
+}
+
+#indexTasks {
+  .card {
+    width: 100% !important;
+    margin-bottom: 1em;
+  }
+}
+
+@media screen and (max-width: 992px) {
+
+  .tasks {
+    justify-content: center;
+  }
+
+  .card {
+    width: 100%;
+    margin-top: 1em;
+  }
+}
+
+
+
+.logo {
+  width: auto;
+  height: 80px;
 }
 
 .slide-image {

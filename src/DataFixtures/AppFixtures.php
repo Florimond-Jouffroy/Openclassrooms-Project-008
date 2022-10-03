@@ -24,6 +24,12 @@ class AppFixtures extends Fixture
     $user->setEmail('florimond@gmail.com');
     $user->setPassword($this->passwordHasher->hashPassword($user, "admin"));
 
+    $admin = new User();
+    $admin->setUsername('admin');
+    $admin->setEmail('admin@gmail.com');
+    $admin->setRoles(['ROLE_ADMIN']);
+    $admin->setPassword($this->passwordHasher->hashPassword($user, "admin"));
+
     $taskD = new Task();
     $taskD->setTitle('task delete');
     $taskD->setContent('task content');
@@ -40,7 +46,7 @@ class AppFixtures extends Fixture
     $manager->persist($taskE);
     $manager->persist($taskT);
 
-
+    $manager->persist($admin);
     $manager->persist($user);
     $manager->flush();
   }

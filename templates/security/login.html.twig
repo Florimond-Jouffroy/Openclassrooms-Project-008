@@ -1,17 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseLogin.html.twig' %}
 
 {% block body %}
+
+
 	{% if error %}
 		<div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
-
 	<form action="{{ path('app_login') }}" method="post">
-		<label for="username">Email :</label>
-		<input type="text" id="username" name="_username" value="{{ last_username }}"/>
 
-		<label for="password">Mot de passe :</label>
-		<input type="password" id="password" name="_password"/>
-
-		<button class="btn btn-success" type="submit" name="login">Se connecter</button>
+		<div class="form-floating mb-3">
+			<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="_username" value="{{ last_username }}">
+			<label for=" floatinginput">Email address</label>
+		</div>
+		<div class="form-floating mb-3">
+			<input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="_password">
+			<label for="floatingPassword">Password</label>
+		</div>
+		<div class="mb-3">
+			<a href="#">Mot de passe oublié ?</a>
+		</div>
+		<button type="submit" class="btn btn-success btn-lg">Se connecter</button>
+		<div class="mt-4">
+			<p>Vous n'avez pas de compte ?
+				<a href="{{path('user_create')}}">Inscrivez-vous</a>
+			</p>
+		</div>
 	</form>
+
 {% endblock %}
