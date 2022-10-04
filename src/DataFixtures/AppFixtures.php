@@ -24,34 +24,70 @@ class AppFixtures extends Fixture
     $user->setEmail('florimond@gmail.com');
     $user->setPassword($this->passwordHasher->hashPassword($user, "admin"));
 
+    $manager->persist($user);
+
+    $userTwo = new User();
+    $userTwo->setUsername('userTwo');
+    $userTwo->setEmail('test@gmail.com');
+    $userTwo->setPassword($this->passwordHasher->hashPassword($user, "admin"));
+
+    $manager->persist($userTwo);
+
     $admin = new User();
     $admin->setUsername('admin');
     $admin->setEmail('admin@gmail.com');
     $admin->setRoles(['ROLE_ADMIN']);
     $admin->setPassword($this->passwordHasher->hashPassword($user, "admin"));
 
+    $manager->persist($admin);
+
 
     // Tasks user
-    $taskD = new Task();
-    $taskD->setTitle('task delete');
-    $taskD->setContent('task content');
-    $taskD->setUser($user);
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($user);
+    $manager->persist($task);
 
-    $taskE = new Task();
-    $taskE->setTitle('task edit');
-    $taskE->setContent('task edit');
-    $taskE->setUser($user);
+    $task = new Task();
+    $task->setTitle('task edit');
+    $task->setContent('task edit');
+    $task->setUser($user);
+    $manager->persist($task);
 
-    $taskT = new Task();
-    $taskT->setTitle('task toggle');
-    $taskT->setContent('task toggle');
-    $taskT->setUser($user);
+    $task = new Task();
+    $task->setTitle('task toggle');
+    $task->setContent('task toggle');
+    $task->setUser($user);
+    $manager->persist($task);
+
+    // Tasks userTwo
+
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($userTwo);
+    $manager->persist($task);
 
     // tasks admin
-    $taskDA = new Task();
-    $taskDA->setTitle('task delete');
-    $taskDA->setContent('task content');
-    $taskDA->setUser($admin);
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($admin);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task edit');
+    $task->setContent('task edit');
+    $task->setUser($admin);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task toggle');
+    $task->setContent('task toggle');
+    $task->setUser($admin);
+    $manager->persist($task);
+
 
     for ($t = 0; $t < 3; $t++) {
       $task = new Task;
@@ -60,26 +96,6 @@ class AppFixtures extends Fixture
       $manager->persist($task);
     }
 
-    $taskEA = new Task();
-    $taskEA->setTitle('task edit');
-    $taskEA->setContent('task edit');
-    $taskEA->setUser($admin);
-
-    $taskTA = new Task();
-    $taskTA->setTitle('task toggle');
-    $taskTA->setContent('task toggle');
-    $taskTA->setUser($admin);
-
-    $manager->persist($taskD);
-    $manager->persist($taskE);
-    $manager->persist($taskT);
-
-    $manager->persist($taskDA);
-    $manager->persist($taskEA);
-    $manager->persist($taskTA);
-
-    $manager->persist($admin);
-    $manager->persist($user);
     $manager->flush();
   }
 }

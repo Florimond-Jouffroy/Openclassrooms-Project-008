@@ -7,6 +7,7 @@ use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -19,11 +20,14 @@ class EditController extends AbstractController
   ) {
   }
 
+  #[IsGranted('ROLE_USER')]
   #[Route('/users/{id}/edit', name: "user_edit")]
-  public function editAction(User $user, Request $request)
+  public function editAction(User $user = null, Request $request)
   {
     /** @var User $currentUser */
     $currentUser = $this->getUser();
+
+
 
     if ($currentUser->getId() !== $user->getId()) {
       $this->addFlash('danger', "Vous n'avez pas les droits");

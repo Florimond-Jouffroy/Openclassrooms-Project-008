@@ -34,7 +34,7 @@ class RegistrationType extends AbstractType
           new Assert\NotBlank(message: 'Ce champ ne peut pas etre vide !'),
           new Assert\Length(
             min: 3,
-            minMessage: 'Votre pseudo doit faire plus de {{limit}} caractères',
+            minMessage: 'Votre pseudo doit faire plus de {{ limit }} caractères',
             max: 20,
             maxMessage: 'Votre pseudo doit faire moins de {{ limit }} caractères'
           )

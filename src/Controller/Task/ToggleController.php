@@ -22,7 +22,7 @@ class ToggleController extends AbstractController
     $user = $this->getUser();
     if (false === $user->isAdmin()) {
       if (false === $task->isHis($user)) {
-        $this->addFlash('danger', "Vous n'avez pas les droits");
+        $this->addFlash('error', "Vous n'avez pas les droits");
         return $this->redirectToRoute('homepage');
       }
     }

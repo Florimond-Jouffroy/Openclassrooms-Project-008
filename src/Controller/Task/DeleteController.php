@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DeleteController extends AbstractController
 {
@@ -17,13 +18,19 @@ class DeleteController extends AbstractController
   }
 
   #[Route('/tasks/{id}/delete', name: 'task_delete')]
-  public function deleteTaskAction(Task $task)
+  public function deleteTaskAction(Task $task = null)
   {
+
+    if (null === $task) {
+      throw new NotFoundHttpException('Trick not found !');
+    }
+
     /** @var User $user */
     $user = $this->getUser();
     if (false === $user->isAdmin()) {
       if (false === $task->isHis($this->getUser())) {
-        $this->addFlash('danger', "Vous n'avez pas les droits");
+
+        $this->addFlash('error', "Vous n'avez pas les droits");
         return $this->redirectToRoute('homepage');
       }
     }
