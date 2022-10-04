@@ -11,12 +11,14 @@ class DefaultControllerTest extends WebTestCase
 {
   private KernelBrowser|null $client = null;
   private User $user;
+  private User $admin;
 
   public function setUp(): void
   {
     $this->client = static::createClient();
     $userRepository = static::getContainer()->get(UserRepository::class);
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
+    $this->admin = $userRepository->findOneByEmail('admin@gmail.com');
   }
 
   // Test sur la page d'accueil sans etre connecter
@@ -25,7 +27,7 @@ class DefaultControllerTest extends WebTestCase
     $this->client->request('GET', '/');
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email address")')->count());
   }
 
   // Test sur la page d'accueil en etant connecter
@@ -36,5 +38,14 @@ class DefaultControllerTest extends WebTestCase
     $crawler = $this->client->request('GET', '/');
     $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
+  }
+
+  public function testIndexAdminLogged()
+  {
+    $this->client->loginUser($this->admin);
+
+    $crawler = $this->client->request('GET', '/');
+    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->assertGreaterThan(0, $crawler->filter('a:contains("Administration")')->count());
   }
 }

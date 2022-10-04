@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\User;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SecurityControllerTest extends WebTestCase
+class LoginControllerTest extends WebTestCase
 {
   private KernelBrowser|null $client = null;
   private User $user;
@@ -19,25 +19,35 @@ class SecurityControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  // Test sur la connexion d'un utilisateur
   public function testLogin(): void
   {
     $crawler = $this->client->request('GET', '/login');
-    $this->assertGreaterThan(0, $crawler->filter('label:contains("Email :")')->count());
+    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->assertEquals(1, $crawler->filter('label:contains("Email address")')->count());
 
     $form = $crawler->selectButton('login')->form();
-    $this->client->submit($form, ['_username' => 'florimond@gmail.com', '_password' => 'admin']);
+    $form['_username'] = 'florimond@gmail.com';
+    $form['_password'] = 'admin';
+    $this->client->submit($form);
+
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
     $crawler = $this->client->followRedirect();
-    $this->assertGreaterThan(0, $crawler->filter('a:contains("Se déconnecter")')->count());
+
+    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->assertEquals(1, $crawler->filter('a:contains("Se déconnecter")')->count());
   }
 
-  // Test sur la déconnexion d'un utilisateur
   public function testLogout(): void
   {
     $this->client->loginUser($this->user);
 
     $this->client->request('GET', '/logout');
     $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+    $this->client->followRedirect();
+    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+    $crawler = $this->client->followRedirect();
+    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->assertEquals(1, $crawler->filter('label:contains("Email address")')->count());
   }
 }

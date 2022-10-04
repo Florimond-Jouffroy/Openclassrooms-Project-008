@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseLogin.html.twig' %}
 
 {% block header_title %}
 	<h1>Créer un utilisateur</h1>
@@ -10,7 +10,13 @@
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
 
-		<button type="submit" class="btn btn-success pull-right" name="addUser">Ajouter</button>
+		<button type="submit" class="btn btn-success pull-right" name="addUser">S'inscrire</button>
+		<div class="mt-4">
+			<p>Vous êtes déjà inscrit ?
+				<a href="{{ path('app_login') }}">Connectez-vous !</a>
+			</p>
+
+		</div>
 		{{ form_end(form) }}
 	</div>
 {% endblock %}

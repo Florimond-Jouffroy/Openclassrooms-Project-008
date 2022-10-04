@@ -24,24 +24,78 @@ class AppFixtures extends Fixture
     $user->setEmail('florimond@gmail.com');
     $user->setPassword($this->passwordHasher->hashPassword($user, "admin"));
 
-    $taskD = new Task();
-    $taskD->setTitle('task delete');
-    $taskD->setContent('task content');
-
-    $taskE = new Task();
-    $taskE->setTitle('task edit');
-    $taskE->setContent('task edit');
-
-    $taskT = new Task();
-    $taskT->setTitle('task toggle');
-    $taskT->setContent('task toggle');
-
-    $manager->persist($taskD);
-    $manager->persist($taskE);
-    $manager->persist($taskT);
-
-
     $manager->persist($user);
+
+    $userTwo = new User();
+    $userTwo->setUsername('userTwo');
+    $userTwo->setEmail('test@gmail.com');
+    $userTwo->setPassword($this->passwordHasher->hashPassword($user, "admin"));
+
+    $manager->persist($userTwo);
+
+    $admin = new User();
+    $admin->setUsername('admin');
+    $admin->setEmail('admin@gmail.com');
+    $admin->setRoles(['ROLE_ADMIN']);
+    $admin->setPassword($this->passwordHasher->hashPassword($user, "admin"));
+
+    $manager->persist($admin);
+
+
+    // Tasks user
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($user);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task edit');
+    $task->setContent('task edit');
+    $task->setUser($user);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task toggle');
+    $task->setContent('task toggle');
+    $task->setUser($user);
+    $manager->persist($task);
+
+    // Tasks userTwo
+
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($userTwo);
+    $manager->persist($task);
+
+    // tasks admin
+    $task = new Task();
+    $task->setTitle('task delete');
+    $task->setContent('task content');
+    $task->setUser($admin);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task edit');
+    $task->setContent('task edit');
+    $task->setUser($admin);
+    $manager->persist($task);
+
+    $task = new Task();
+    $task->setTitle('task toggle');
+    $task->setContent('task toggle');
+    $task->setUser($admin);
+    $manager->persist($task);
+
+
+    for ($t = 0; $t < 3; $t++) {
+      $task = new Task;
+      $task->setTitle('task-' . $t);
+      $task->setContent('content');
+      $manager->persist($task);
+    }
+
     $manager->flush();
   }
 }
