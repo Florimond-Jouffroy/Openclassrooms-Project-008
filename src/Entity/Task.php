@@ -78,13 +78,18 @@ class Task
 
   public function getUser(): ?User
   {
-      return $this->user;
+    return $this->user;
   }
 
   public function setUser(?User $user): self
   {
-      $this->user = $user;
+    $this->user = $user;
 
-      return $this;
+    return $this;
+  }
+
+  public function isHis(User $user): bool
+  {
+    return ($user->getId() === $this->getUser()->getId()) ? true : false;
   }
 }

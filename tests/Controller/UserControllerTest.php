@@ -34,7 +34,7 @@ class UserControllerTest extends WebTestCase
       $this->client->loginUser($this->user);
     }
 
-    $this->client->request('GET', '/users');
+    $this->client->request('GET', '/admin/users');
     $this->assertEquals($expectedStatusCode, $this->client->getResponse()->getStatusCode());
   }
 
@@ -71,12 +71,9 @@ class UserControllerTest extends WebTestCase
   // Test sur la modification d'un utilisateur
   public function testEditUser(): void
   {
-    $userRepository = static::getContainer()->get(UserRepository::class);
+    $this->client->loginUser($this->user);
 
-    $user = $userRepository->findOneByEmail('florimond@gmail.com');
-    $id = $user->getId();
-
-    $crawler = $this->client->request('GET', '/users/' . $id . '/edit');
+    $crawler = $this->client->request('GET', '/users/' . $this->user->getId() . '/edit');
     $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     $form = $crawler->selectButton('editUser')->form();
 

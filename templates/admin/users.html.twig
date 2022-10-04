@@ -14,8 +14,8 @@
 		</div>
 	{% else %}
 		<div>
-			<a href="#" class="btn btn-primary disabled mb-3">Les utilisateurs</a>
-			<a href="#" class="btn btn-outline-primary mb-3">Les Taches</a>
+			<a href="{{path('user_list')}}" class="btn btn-primary mb-3">Les utilisateurs</a>
+			<a href="{{path('admin_tasks')}}" class="btn btn-outline-primary mb-3">Les Taches</a>
 		</div>
 		<div class="row">
 			<table class="table">

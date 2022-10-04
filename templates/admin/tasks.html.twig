@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block header_title %}
+	<h1>Liste des taches sans utilisateurs</h1>
+{% endblock %}
+
+{% block body %}
+	<div>
+		<a href="{{path('user_list')}}" class="btn btn-outline-primary mb-3">Les utilisateurs</a>
+		<a href="{{path('admin_tasks')}}" class="btn btn-primary mb-3">Les Taches</a>
+	</div>
+	<div class="tasks">
+		{% include "/partials/_taskList.html.twig" %}
+	</div>
+
+{% endblock %}

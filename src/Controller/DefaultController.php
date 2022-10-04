@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,9 +19,10 @@ class DefaultController extends AbstractController
   #[Route('/', name: "homepage")]
   public function indexAction()
   {
-    $tasks = $this->taskRepository->findAll();
+    /** @var User $user */
+    $user = $this->getUser();
     return $this->render('default/index.html.twig', [
-      'tasks' => $tasks
+      'tasks' => $user->getTasks()
     ]);
   }
 }
