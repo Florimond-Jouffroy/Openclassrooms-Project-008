@@ -31,7 +31,7 @@ class RegistrationControllerTest extends WebTestCase
     $form['registration[password][first]'] = 'admin';
     $form['registration[password][second]'] = 'admin';
     $form['registration[email]'] = 'test@test.com';
-    $form['registration[roles]'] = ['ROLE_ADMIN'];
+    $form['registration[roles][0]']->tick();
 
     $this->client->submit($form);
 

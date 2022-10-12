@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Controller\Admin\User;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -20,20 +19,9 @@ class EditController extends AbstractController
   ) {
   }
 
-  #[IsGranted('ROLE_USER')]
-  #[Route('/users/{id}/edit', name: "user_edit")]
-  public function editAction(User $user = null, Request $request)
+  #[Route('/admin/users/{id}/edit', name: 'admin_user_edit')]
+  public function editUser(Request $request, User $user)
   {
-    /** @var User $currentUser */
-    $currentUser = $this->getUser();
-
-
-
-    if ($currentUser->getId() !== $user->getId()) {
-      $this->addFlash('danger', "Vous n'avez pas les droits");
-      return $this->redirectToRoute('homepage');
-    }
-
     $form = $this->createForm(RegistrationType::class, $user);
     $form->handleRequest($request);
 
@@ -46,7 +34,7 @@ class EditController extends AbstractController
       return $this->redirectToRoute('user_list');
     }
 
-    return $this->render('user/edit.html.twig', [
+    return $this->render('admin/user/edit.html.twig', [
       'form' => $form->createView(),
     ]);
   }
