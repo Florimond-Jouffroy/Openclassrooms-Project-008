@@ -6,9 +6,10 @@ use App\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TaskType extends AbstractType
 {
@@ -17,6 +18,7 @@ class TaskType extends AbstractType
     $builder
       ->add('title', TextType::class, [
         'label' => 'Title',
+        'attr' => [],
         'constraints' => [
           new Assert\NotBlank(message: 'Vous ne pouvez pas ajouter une tache sans titre !'),
           new Assert\Length(
@@ -24,8 +26,8 @@ class TaskType extends AbstractType
             minMessage: 'Votre titre doit faire plus de {{ limit }} caractères !',
             max: 50,
             maxMessage: 'Votre titre doit faire moins de {{ limit }} caractères !'
-          )
-        ]
+          ),
+        ],
       ])
       ->add('content', TextareaType::class);
   }

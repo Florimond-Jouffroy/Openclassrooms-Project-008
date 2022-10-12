@@ -19,7 +19,7 @@ class IndexController extends AbstractController
   #[Route('/admin/users', name: "user_list")]
   public function listAction()
   {
-    return $this->render('admin/users.html.twig', [
+    return $this->render('admin/user/users.html.twig', [
       'users' => $this->userRepository->findAll(),
     ]);
   }

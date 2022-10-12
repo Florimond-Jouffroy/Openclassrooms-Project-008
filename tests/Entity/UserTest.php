@@ -19,12 +19,12 @@ class UserTest extends WebTestCase
     $this->assertNull($this->user->getId());
   }
 
-  /*
+
   public function testUsername(): void
   {
     $this->user->setUsername('name');
     $this->assertSame('name', $this->user->getUsername());
-  }*/
+  }
 
   public function testPassword(): void
   {

@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Task;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskTest extends WebTestCase
@@ -30,5 +31,19 @@ class TaskTest extends WebTestCase
   {
     $this->task->setContent('Content');
     $this->assertSame('Content', $this->task->getContent());
+  }
+
+  public function testCreatedAt(): void
+  {
+    $date = new DateTime('now');
+    $this->task->setCreatedAt($date);
+    $this->assertSame($date, $this->task->getCreatedAt());
+  }
+
+  public function testUdapedAt(): void
+  {
+    $date = new DateTime('now');
+    $this->task->setUpdatedAt($date);
+    $this->assertSame($date, $this->task->getUpdatedAt());
   }
 }

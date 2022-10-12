@@ -65,9 +65,7 @@ class RegistrationType extends AbstractType
   {
     $resolver->setDefaults([
       'data_class' => User::class,
-      'constraints' => [
-        new UniqueEntity('email', message: 'Cette email {{ value }} est déjà utilisé'),
-      ],
+
     ]);
   }
 }
