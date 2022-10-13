@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_todo_symfony
+    command: --authentication_policy=mysql_native_password
+    restart: always
+    volumes:
+      - db-data-todo:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=5ecr3t
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
+      - dev-todo
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_todo_symfony
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - 8989:80
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev-todo
+
+  www:
+    build: php
+    container_name: www_todo_symfony
+    ports:
+      - "9090:80"
+    volumes:
+      - ./php/vhosts:/etc/apache2/sites-enabled
+      - ./project:/var/www
+    restart: always
+    networks:
+      - dev-todo
+
+networks:
+  dev-todo:
+
+
+volumes:
+  db-data-todo:
