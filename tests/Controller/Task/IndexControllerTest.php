@@ -19,7 +19,7 @@ class IndexControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testTaskList()
+  public function testTaskList(): void
   {
     $this->client->loginUser($this->user);
 
@@ -28,7 +28,7 @@ class IndexControllerTest extends WebTestCase
     $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
   }
 
-  public function testTaskListNotLogged()
+  public function testTaskListNotLogged(): void
   {
     $this->client->request('GET', '/tasks');
 

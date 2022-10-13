@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class EditController extends AbstractController
 {
@@ -18,7 +19,7 @@ class EditController extends AbstractController
   }
 
   #[Route('/tasks/{id}/edit', name: "task_edit")]
-  public function editAction(Task $task, Request $request)
+  public function editAction(Task $task, Request $request): Response
   {
     $form = $this->createForm(TaskType::class, $task);
     $form->handleRequest($request);

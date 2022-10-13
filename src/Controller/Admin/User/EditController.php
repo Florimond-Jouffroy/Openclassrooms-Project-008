@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EditController extends AbstractController
@@ -20,7 +21,7 @@ class EditController extends AbstractController
   }
 
   #[Route('/admin/users/{id}/edit', name: 'admin_user_edit')]
-  public function editUser(Request $request, User $user)
+  public function editUser(Request $request, User $user): Response
   {
     $form = $this->createForm(RegistrationType::class, $user);
     $form->handleRequest($request);

@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class CreateController extends AbstractController
 {
@@ -17,7 +18,7 @@ class CreateController extends AbstractController
   }
 
   #[Route('/tasks/create', name: "task_create")]
-  public function createAction(Request $request)
+  public function createAction(Request $request): Response
   {
     $form = $this->createForm(TaskType::class, $task = new Task());
     $form->handleRequest($request);

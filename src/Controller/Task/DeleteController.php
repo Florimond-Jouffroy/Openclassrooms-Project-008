@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DeleteController extends AbstractController
@@ -18,7 +19,7 @@ class DeleteController extends AbstractController
   }
 
   #[Route('/tasks/{id}/delete', name: 'task_delete')]
-  public function deleteTaskAction(Task $task = null)
+  public function deleteTaskAction(Task $task = null): Response
   {
 
     if (null === $task) {

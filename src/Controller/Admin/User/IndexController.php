@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
@@ -17,7 +18,7 @@ class IndexController extends AbstractController
 
   #[IsGranted('ROLE_ADMIN')]
   #[Route('/admin/users', name: "user_list")]
-  public function listAction()
+  public function listAction(): Response
   {
     return $this->render('admin/user/users.html.twig', [
       'users' => $this->userRepository->findAll(),

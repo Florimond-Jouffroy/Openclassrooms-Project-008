@@ -20,7 +20,7 @@ class TaskTypeTest extends TypeTestCase
     ];
   }
 
-  public function testSubmitValidData()
+  public function testSubmitValidData(): void
   {
 
     $formData = [
@@ -44,7 +44,7 @@ class TaskTypeTest extends TypeTestCase
     $this->assertEquals($expectedTask->getContent(), $form->get('content')->getData());
   }
 
-  public function testCustomFormView()
+  public function testCustomFormView(): void
   {
     $formData = new Task();
     $formData->setTitle('Titre de ma tache');

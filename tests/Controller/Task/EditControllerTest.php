@@ -21,7 +21,7 @@ class EditControllerTest extends WebTestCase
     $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
   }
 
-  public function testEditTask()
+  public function testEditTask(): void
   {
     $this->client->loginUser($this->user);
     $task = $this->user->getTasks()->first();
@@ -50,7 +50,7 @@ class EditControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('h5:contains("Test nouveau")')->count());
   }
 
-  public function testEditTaskAnotherUser()
+  public function testEditTaskAnotherUser(): void
   {
     $this->client->loginUser($this->user);
     $task = $this->userTwo->getTasks()->first();
@@ -64,7 +64,7 @@ class EditControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
   }
 
-  public function testEditWrongId()
+  public function testEditWrongId(): void
   {
     /** @var TaskRepository */
     $tasksRepository = static::getContainer()->get(TaskRepository::class);

@@ -21,7 +21,7 @@ class DeleteControllerTest extends WebTestCase
     $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
   }
 
-  public function testTaskDelete()
+  public function testTaskDelete(): void
   {
     $this->client->loginUser($this->user);
     $task = $this->user->getTasks()->first();
@@ -36,7 +36,7 @@ class DeleteControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
   }
 
-  public function testTaskDeleteAnotherUser()
+  public function testTaskDeleteAnotherUser(): void
   {
     $this->client->loginUser($this->user);
     $task = $this->userTwo->getTasks()->first();
@@ -51,7 +51,7 @@ class DeleteControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
   }
 
-  public function testTaskDeleteWrongId()
+  public function testTaskDeleteWrongId(): void
   {
     /** @var TaskRepository */
     $tasksRepository = static::getContainer()->get(TaskRepository::class);

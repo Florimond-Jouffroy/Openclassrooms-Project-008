@@ -21,7 +21,7 @@ class UserRepositoryTest extends KernelTestCase
       ->getManager();
   }
 
-  public function testSearchByName()
+  public function testSearchByName(): void
   {
     $task = $this->entityManager
       ->getRepository(User::class)

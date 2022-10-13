@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class ToggleController extends AbstractController
 {
@@ -16,7 +17,7 @@ class ToggleController extends AbstractController
   }
 
   #[Route('/tasks/{id}/toggle', name: "task_toggle")]
-  public function toggleTaskAction(Task $task)
+  public function toggleTaskAction(Task $task): Response
   {
     /** @var User $user */
     $user = $this->getUser();
@@ -26,7 +27,6 @@ class ToggleController extends AbstractController
         return $this->redirectToRoute('homepage');
       }
     }
-
 
     $task->toggle(!$task->isDone());
     $this->em->flush();

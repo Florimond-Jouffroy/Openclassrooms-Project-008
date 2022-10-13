@@ -20,7 +20,7 @@ class ToggleControllerTest extends WebTestCase
     $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
   }
 
-  public function testTaskToggle()
+  public function testTaskToggle(): void
   {
     $this->client->loginUser($this->user);
 
@@ -36,7 +36,7 @@ class ToggleControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
   }
 
-  public function testTaskToggleAnotherUser()
+  public function testTaskToggleAnotherUser(): void
   {
     $this->client->loginUser($this->user);
     $task = $this->userTwo->getTasks()->first();

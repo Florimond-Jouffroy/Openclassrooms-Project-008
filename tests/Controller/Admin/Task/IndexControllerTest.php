@@ -20,7 +20,7 @@ class IndexControllerTest extends WebTestCase
     $this->admin = $userRepository->findOneByEmail('admin@gmail.com');
   }
 
-  public function testAdminTaskIndex()
+  public function testAdminTaskIndex(): void
   {
     $this->client->loginUser($this->admin);
 
@@ -30,7 +30,7 @@ class IndexControllerTest extends WebTestCase
     $this->assertEquals(1, $crawler->filter('div.tasks')->count());
   }
 
-  public function testAdminTaskIndexNotAdmin()
+  public function testAdminTaskIndexNotAdmin(): void
   {
     $this->client->loginUser($this->user);
 

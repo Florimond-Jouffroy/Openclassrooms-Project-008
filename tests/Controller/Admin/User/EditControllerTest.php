@@ -11,7 +11,7 @@ class EditControllerTest extends WebTestCase
 {
 
   private KernelBrowser|null $client = null;
-  private User $admin, $user;
+  private User $admin;
 
   public function setUp(): void
   {
@@ -21,7 +21,7 @@ class EditControllerTest extends WebTestCase
     $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
   }
 
-  public function testEditUser()
+  public function testEditUser(): void
   {
     $this->client->loginUser($this->admin);
 

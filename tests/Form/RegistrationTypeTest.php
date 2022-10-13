@@ -21,7 +21,7 @@ class RegistrationTypeTest extends TypeTestCase
     ];
   }
 
-  public function testSubmitValidData()
+  public function testSubmitValidData(): void
   {
     $formData = [
       'username' => 'FormTypeTest',

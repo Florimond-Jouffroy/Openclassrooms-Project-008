@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Task;
 use App\Repository\TaskRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
@@ -15,7 +16,7 @@ class IndexController extends AbstractController
 
   #[IsGranted('ROLE_ADMIN')]
   #[Route('/admin/tasks', name: 'admin_tasks')]
-  public function index()
+  public function index(): Response
   {
     $tasks = $this->taskRepository->findBy(['user' => null]);
 
