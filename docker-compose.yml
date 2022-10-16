@@ -1,49 +1,59 @@
 version: "3.8"
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: mysql_todo_symfony
-    command: --authentication_policy=mysql_native_password
-    restart: always
+  db:
+    image: mysql:5.7
     volumes:
-      - db-data-todo:/var/lib/mysql
+      - db_data:/var/lib/mysql
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=5ecr3t
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todolist
+      MYSQL_USER: todolist
+      MYSQL_PASSWORD: secret
     networks:
-      - dev-todo
+      - dev
 
   phpmyadmin:
-    image: phpmyadmin
-    container_name: phpmyadmin_todo_symfony
+    image: phpmyadmin:5-apache
+    container_name: phpmyadmin_docker_symfony
     restart: always
     depends_on:
-      - mysql
+      - db
     ports:
-      - 8989:80
+      - 8080:80
     environment:
       PMA_HOST: db
     networks:
-      - dev-todo
+      - dev
 
   www:
     build: php
-    container_name: www_todo_symfony
+    container_name: www_docker_symfony
     ports:
-      - "9090:80"
+      - "8989:80"
     volumes:
       - ./php/vhosts:/etc/apache2/sites-enabled
       - ./project:/var/www
     restart: always
     networks:
-      - dev-todo
+      - dev
 
-networks:
-  dev-todo:
-
+  blackfire:
+    image: blackfire/blackfire
+    container_name: black_docker_symfony
+    ports: [ "8707" ]
+    environment:
+      # Exposes BLACKFIRE_\* environment variables from the host
+      BLACKFIRE_SERVER_ID: $BLACKFIRE_SERVER_ID
+      BLACKFIRE_SERVER_TOKEN: $BLACKFIRE_SERVER_TOKEN
+      BLACKFIRE_CLIENT_ID: $BLACKFIRE_CLIENT_ID
+      BLACKFIRE_CLIENT_TOKEN: $BLACKFIRE_CLIENT_TOKEN
+    networks:
+      - dev
 
 volumes:
-  db-data-todo:
+  db_data: {}
+
+networks:
+  dev:
