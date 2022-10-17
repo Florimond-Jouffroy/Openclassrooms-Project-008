@@ -17,10 +17,14 @@ COPY ./config/app.php.ini /usr/local/etc/php/conf.d/
 
 RUN docker-php-ext-install pdo pdo_mysql zip opcache
 
+COPY ./config/opcache.ini /usr/local/etc/php/conf.d
+
 RUN pecl install apcu && docker-php-ext-enable apcu
 
 RUN pecl install xdebug \
-  && docker-php-ext-enable xdebug
+  && docker-php-ext-enable xdebug\
+  && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/xdebug.ini
+
 
 RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && architecture=$(uname -m) \
