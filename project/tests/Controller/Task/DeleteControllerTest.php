@@ -10,59 +10,59 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeleteControllerTest extends WebTestCase
 {
-  private KernelBrowser|null $client = null;
-  private User $user, $userTwo;
+    private KernelBrowser|null $client = null;
+    private User $user, $userTwo;
 
-  public function setUp(): void
-  {
-    $this->client = static::createClient();
-    $userRepository = static::getContainer()->get(UserRepository::class);
-    $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
-    $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
-  }
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
+        $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
+    }
 
-  public function testTaskDelete(): void
-  {
-    $this->client->loginUser($this->user);
-    $task = $this->user->getTasks()->first();
+    public function testTaskDelete(): void
+    {
+        $this->client->loginUser($this->user);
+        $task = $this->user->getTasks()->first();
 
-    $this->client->request('GET', '/tasks/' . $task->getId() . '/delete');
+        $this->client->request('GET', '/tasks/' . $task->getId() . '/delete');
 
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-    $crawler = $this->client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
-  }
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
+    }
 
-  public function testTaskDeleteAnotherUser(): void
-  {
-    $this->client->loginUser($this->user);
-    $task = $this->userTwo->getTasks()->first();
+    public function testTaskDeleteAnotherUser(): void
+    {
+        $this->client->loginUser($this->user);
+        $task = $this->userTwo->getTasks()->first();
 
-    $this->client->request('GET', '/tasks/' . $task->getId() . '/delete');
+        $this->client->request('GET', '/tasks/' . $task->getId() . '/delete');
 
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-    $crawler = $this->client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
-  }
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
+    }
 
-  public function testTaskDeleteWrongId(): void
-  {
-    /** @var TaskRepository */
-    $tasksRepository = static::getContainer()->get(TaskRepository::class);
-    $tasks = $tasksRepository->findAll();
-    $task = end($tasks);
-    $id = $task->getId();
-    $id = $id + 10;
+    public function testTaskDeleteWrongId(): void
+    {
+        /** @var TaskRepository */
+        $tasksRepository = static::getContainer()->get(TaskRepository::class);
+        $tasks = $tasksRepository->findAll();
+        $task = end($tasks);
+        $id = $task->getId();
+        $id = $id + 10;
 
-    $this->client->loginUser($this->user);
-    $this->client->request('GET', '/tasks/' . $id . '/delete');
+        $this->client->loginUser($this->user);
+        $this->client->request('GET', '/tasks/' . $id . '/delete');
 
-    $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
-  }
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
 }

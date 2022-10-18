@@ -9,45 +9,45 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ToggleControllerTest extends WebTestCase
 {
-  private KernelBrowser|null $client = null;
-  private User $user, $userTwo;
+    private KernelBrowser|null $client = null;
+    private User $user, $userTwo;
 
-  public function setUp(): void
-  {
-    $this->client = static::createClient();
-    $userRepository = static::getContainer()->get(UserRepository::class);
-    $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
-    $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
-  }
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $this->user = $userRepository->findOneByEmail('florimond@gmail.com');
+        $this->userTwo = $userRepository->findOneByEmail('test@gmail.com');
+    }
 
-  public function testTaskToggle(): void
-  {
-    $this->client->loginUser($this->user);
+    public function testTaskToggle(): void
+    {
+        $this->client->loginUser($this->user);
 
-    $task = $this->user->getTasks()->first();
+        $task = $this->user->getTasks()->first();
 
-    $this->client->request('GET', '/tasks/' . $task->getId() . '/toggle');
+        $this->client->request('GET', '/tasks/' . $task->getId() . '/toggle');
 
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-    $crawler = $this->client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
-  }
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
+    }
 
-  public function testTaskToggleAnotherUser(): void
-  {
-    $this->client->loginUser($this->user);
-    $task = $this->userTwo->getTasks()->first();
+    public function testTaskToggleAnotherUser(): void
+    {
+        $this->client->loginUser($this->user);
+        $task = $this->userTwo->getTasks()->first();
 
-    $this->client->request('GET', '/tasks/' . $task->getId() . '/toggle');
+        $this->client->request('GET', '/tasks/' . $task->getId() . '/toggle');
 
-    $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-    $crawler = $this->client->followRedirect();
+        $crawler = $this->client->followRedirect();
 
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
-  }
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
+    }
 }

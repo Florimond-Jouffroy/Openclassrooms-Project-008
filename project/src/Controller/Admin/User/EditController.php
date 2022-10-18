@@ -14,29 +14,29 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class EditController extends AbstractController
 {
 
-  public function __construct(
-    private UserPasswordHasherInterface $passwordHasher,
-    private EntityManagerInterface $em,
-  ) {
-  }
-
-  #[Route('/admin/users/{id}/edit', name: 'admin_user_edit')]
-  public function editUser(Request $request, User $user): Response
-  {
-    $form = $this->createForm(RegistrationType::class, $user);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
-      $this->em->persist($user);
-      $this->em->flush();
-      $this->addFlash('success', "L'utilisateur a bien été modifié");
-
-      return $this->redirectToRoute('user_list');
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $em,
+    ) {
     }
 
-    return $this->render('admin/user/edit.html.twig', [
-      'form' => $form->createView(),
-    ]);
-  }
+    #[Route('/admin/users/{id}/edit', name: 'admin_user_edit')]
+    public function editUser(Request $request, User $user): Response
+    {
+        $form = $this->createForm(RegistrationType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('admin/user/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
