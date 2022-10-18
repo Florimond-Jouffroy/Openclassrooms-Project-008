@@ -11,27 +11,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ToggleController extends AbstractController
 {
-  public function __construct(
-    private EntityManagerInterface $em,
-  ) {
-  }
-
-  #[Route('/tasks/{id}/toggle', name: "task_toggle")]
-  public function toggleTaskAction(Task $task): Response
-  {
-    /** @var User $user */
-    $user = $this->getUser();
-    if (false === $user->isAdmin()) {
-      if (false === $task->isHis($user)) {
-        $this->addFlash('error', "Vous n'avez pas les droits");
-        return $this->redirectToRoute('homepage');
-      }
+    public function __construct(
+        private EntityManagerInterface $em,
+    ) {
     }
 
-    $task->toggle(!$task->isDone());
-    $this->em->flush();
-    $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+    #[Route('/tasks/{id}/toggle', name: "task_toggle")]
+    public function toggleTaskAction(Task $task): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (false === $user->isAdmin()) {
+            if (false === $task->isHis($user)) {
+                $this->addFlash('error', "Vous n'avez pas les droits");
+                return $this->redirectToRoute('homepage');
+            }
+        }
 
-    return $this->redirectToRoute('task_list');
-  }
+        $task->toggle(!$task->isDone());
+        $this->em->flush();
+        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+
+        return $this->redirectToRoute('task_list');
+    }
 }

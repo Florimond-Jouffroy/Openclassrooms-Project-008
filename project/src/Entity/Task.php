@@ -11,84 +11,84 @@ use App\Entity\Traits\TimeStampableTrait;
 #[ORM\HasLifecycleCallbacks()]
 class Task
 {
-  use TimeStampableTrait;
-  #[ORM\Id]
-  #[ORM\GeneratedValue]
-  #[ORM\Column]
-  private ?int $id = null;
+    use TimeStampableTrait;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-  #[ORM\Column(length: 255)]
-  private ?string $title = null;
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
 
-  #[ORM\Column(type: Types::TEXT, nullable: true)]
-  private ?string $content = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content = null;
 
-  #[ORM\Column]
-  private ?bool $isDone = null;
+    #[ORM\Column]
+    private ?bool $isDone = null;
 
-  #[ORM\ManyToOne(inversedBy: 'tasks')]
-  private ?User $user = null;
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    private ?User $user = null;
 
-  public function __construct()
-  {
-    $this->isDone = false;
-  }
+    public function __construct()
+    {
+        $this->isDone = false;
+    }
 
-  public function getId(): ?int
-  {
-    return $this->id;
-  }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-  public function getTitle(): ?string
-  {
-    return $this->title;
-  }
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
-  public function setTitle(string $title): self
-  {
-    $this->title = $title;
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function getContent(): ?string
-  {
-    return $this->content;
-  }
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
 
-  public function setContent(?string $content): self
-  {
-    $this->content = $content;
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function isDone(): ?bool
-  {
-    return $this->isDone;
-  }
+    public function isDone(): ?bool
+    {
+        return $this->isDone;
+    }
 
-  public function toggle(bool $isDone): self
-  {
-    $this->isDone = $isDone;
+    public function toggle(bool $isDone): self
+    {
+        $this->isDone = $isDone;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function getUser(): ?User
-  {
-    return $this->user;
-  }
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
 
-  public function setUser(?User $user): self
-  {
-    $this->user = $user;
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function isHis(User $user): bool
-  {
-    return ($user->getId() === $this->getUser()->getId()) ? true : false;
-  }
+    public function isHis(User $user): bool
+    {
+        return ($user->getId() === $this->getUser()->getId()) ? true : false;
+    }
 }

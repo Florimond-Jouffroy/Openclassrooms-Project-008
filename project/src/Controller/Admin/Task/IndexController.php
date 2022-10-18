@@ -10,18 +10,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
 {
-  public function __construct(private TaskRepository $taskRepository)
-  {
-  }
+    public function __construct(private TaskRepository $taskRepository)
+    {
+    }
 
-  #[IsGranted('ROLE_ADMIN')]
-  #[Route('/admin/tasks', name: 'admin_tasks')]
-  public function index(): Response
-  {
-    $tasks = $this->taskRepository->findBy(['user' => null]);
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/admin/tasks', name: 'admin_tasks')]
+    public function index(): Response
+    {
+        $tasks = $this->taskRepository->findBy(['user' => null]);
 
-    return $this->render('admin/tasks.html.twig', [
-      'tasks' => $tasks
-    ]);
-  }
+        return $this->render('admin/tasks.html.twig', [
+            'tasks' => $tasks
+        ]);
+    }
 }
