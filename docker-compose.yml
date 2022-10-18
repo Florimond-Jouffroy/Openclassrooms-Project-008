@@ -35,6 +35,7 @@ services:
     volumes:
       - ./php/vhosts:/etc/apache2/sites-enabled
       - ./project:/var/www
+      - app_cache:/var/www/var/cache
     restart: always
     networks:
       - dev
@@ -54,6 +55,7 @@ services:
 
 volumes:
   db_data: {}
+  app_cache: {}
 
 networks:
   dev:

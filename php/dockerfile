@@ -1,5 +1,5 @@
 From php:8.1-apache
-
+ENV COMPOSER_HOME=/usr/local/lib/composer
 Run echo "ServerName localhost">> /etc/apache2/apache2.conf
 
 Run apt-get update \
@@ -7,6 +7,8 @@ Run apt-get update \
 
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+COPY ./config/entrypoint.sh /entrypoint.sh
 
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
   mv composer.phar /usr/local/bin/composer
@@ -30,3 +32,5 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
 
 WORKDIR /var/www/
+ENTRYPOINT  ["/entrypoint.sh"]
+CMD ["apache2-foreground"]
