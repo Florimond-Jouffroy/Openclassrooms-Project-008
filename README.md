@@ -4,6 +4,8 @@ Amélioration et documentation d'un projet existant ToDo & Co.
 
 ## Prérequis
 
+Vous devez avoir git d'installer et docker-compose pour pouvoir faire fonctionner ce projet.
+
 ## Installation
 Voici l'installation recommandée avec Docker qui inclut PHP, MySQL et phpMyAdmin pour obtenir une application fonctionnelle en un rien de temps.
 
@@ -16,7 +18,7 @@ Voici l'installation recommandée avec Docker qui inclut PHP, MySQL et phpMyAdmi
 ```
 docker compose up -d
 ```
-". Créer la base de donnée :
+3. Créer la base de donnée :
 ```
 docker compose exec -u www-data www php bin/console d:d:c
 ```
