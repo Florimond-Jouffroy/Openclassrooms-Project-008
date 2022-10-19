@@ -5,13 +5,13 @@ Merci pour vos futurs contributions !
 ## Instructions
 
 ### Issue
-La premiere étape à suivre quand vous souhaiter apporter une modification, que ce soit pour corriger une erreur ou apporter une nouvelle fonctionalité, est de créer une issue. Il est important de bien détailler dans sont titre et sa définition ce que vous allez faire.
+La première étape à suivre quand vous souhaiter apporter une modification, que ce soit pour corriger une erreur ou apporter une nouvelle fonctionnalité, est de créer une issue. Il est important de bien détailler dans son titre et sa définition ce que vous allez faire.
 
 ### Fork le Repo
 
 ### Installation du projet en local
 
-Vous devez suivre les instruction du fichier [README.md](README.md)
+Vous devez suivre les instructions du fichier [README.md](README.md)
 
 ### Code
 
@@ -25,7 +25,7 @@ Avant d'apporter votre contribution au projet suiver les étapes suivantes:
 
 ### Pull Request
 
-Créer une pull request sur la branche de dévelopement. Attribuer vous cette PR et ajouter le propriétaire en révision. Ajouter également une déscription de ce que contient votre PR.
+Créer une pull request sur la branche de dévelopement. Attribuer vous cette PR et ajouter le propriétaire en révision. Ajouter également une description de ce que contient votre PR.
 
 Nous nous occupons de la suite.
 
