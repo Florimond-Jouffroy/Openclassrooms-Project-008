@@ -1,9 +1,9 @@
 # Comment contribuer
----
+
 Merci pour vos futurs contributions !
 
 ## Instructions
----
+
 ### Issue
 La premiere étape à suivre quand vous souhaiter apporter une modification, que ce soit pour corriger une erreur ou apporter une nouvelle fonctionalité, est de créer une issue. Il est important de bien détailler dans sont titre et sa définition ce que vous allez faire.
 
