@@ -36,3 +36,5 @@ docker compose exec -u www-data www php bin/console d:f:l
 ```
 docker compose exec -u www-data www php bin/phpunit
 ```
+
+L'application est maintenant disponible à l'adresse suviante [http://localhost:8989/](http://localhost:8989/)
