@@ -17,6 +17,7 @@ Voici l'installation recommandée avec Docker qui inclut PHP, MySQL et phpMyAdmi
 2. A la racine du projet :
 ```
 docker compose up -d
+docker compose exec -u www-data www composer install
 ```
 3. Créer la base de donnée :
 ```
